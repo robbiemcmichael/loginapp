@@ -91,6 +91,21 @@ var tokenTmpl = template.Must(template.New("token.html").Parse(`<html>
                </div>
             </li>
             <li>
+               <label>Or execute the following command:</label>
+               <div class="code-box-copy">
+                  <button class="code-box-copy__btn" title="Copy" type="button" data-clipboard-target="#update-config"></button>
+                  <pre><code class="language-yaml" id="update-config">kubectl config set-credentials {{ .Claims.name }} \
+    --auth-provider-arg=idp-issuer-url={{ .Claims.iss }} \
+    --auth-provider-arg=client-id={{ .Claims.aud }} \
+    --auth-provider-arg=id-token={{ .IDToken }} \
+{{- if ne .RefreshToken "" }}
+    --auth-provider-arg=client-secret={{ .ClientSecret }} \
+    --auth-provider-arg=refresh-token={{ .RefreshToken }} \
+{{- end }}
+    --auth-provider=oidc</code></pre>
+               </div>
+            </li>
+            <li>
                <label>Return to login page</label>
                <input type="submit" value="Home" />
             </li>
